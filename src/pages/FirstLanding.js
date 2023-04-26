@@ -4,11 +4,17 @@ import { Steps } from 'antd';
 import { Button, Space } from 'antd';
 import { BsCircleFill, BsShieldCheck, BsCheckLg } from "react-icons/bs"
 import { AiOutlineGlobal, AiOutlineDownload } from "react-icons/ai"
-
-
+import RegisterModal from "../components/modal";
+import { useState } from "react"
 
 
 export default function FirstLanding() {
+
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
+    const showModal = () => {
+        setIsModalOpen(true);
+    };
 
     return (<>
         <Header />
@@ -117,7 +123,6 @@ export default function FirstLanding() {
                     items={[
                         {
                             title: 'Create Account',
-
                         },
                         {
                             title: 'Verify Account',
@@ -136,7 +141,7 @@ export default function FirstLanding() {
 
         <div className="body5">
             <div>
-                <Button type="primary"> Get Started Now</Button>
+                <Button type="primary" onClick={showModal}> Get Started Now</Button>
             </div>
 
             <div className="body52">   <BsCircleFill className="icon_online" fontSize={10} style={{ marginRight: 5 }} />
@@ -158,6 +163,8 @@ export default function FirstLanding() {
             on a monthly basis and the service automatically charge the credit card you have provided the applicable monthly 49.95€ fee
             stated at the begining of each such period, for as long as you continue the service. You can cancel your membership anytime.
         </div>
+
+        <RegisterModal isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} />
 
     </>
 
