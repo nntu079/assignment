@@ -2,7 +2,7 @@ import Header from "../components/header";
 import { Col, Row, Divider } from 'antd';
 import { Steps } from 'antd';
 import { Button, Space } from 'antd';
-import { BsCircleFill, BsShieldCheck } from "react-icons/bs"
+import { BsCircleFill, BsShieldCheck, BsCheckLg } from "react-icons/bs"
 import { AiOutlineGlobal, AiOutlineDownload } from "react-icons/ai"
 
 
@@ -147,9 +147,9 @@ export default function FirstLanding() {
         </div>
 
         <div className="body7">
-            <div>Global Access from anywhere and any device</div>
-            <div style={{ marginTop: 10 }}>Your own space in the cloud: 5TB of Cloud Storage space included</div>
-            <div style={{ marginTop: 10 }}>Unlimited Speed: no speed or transfer limit</div>
+            <div ><span style={{ position: "relative", marginRight: 3 }}><BsCheckLg size="15" className="icon_check" /></span> Global Access from anywhere and any device</div>
+            <div ><span style={{ position: "relative", marginRight: 3 }}><BsCheckLg size="15" className="icon_check" /></span>Your own space in the cloud: 5TB of Cloud Storage space included</div>
+            <div ><span style={{ position: "relative", marginRight: 3 }}><BsCheckLg size="15" className="icon_check" /></span>Unlimited Speed: no speed or transfer limit</div>
         </div>
 
         <div className="body8">
