@@ -44,18 +44,18 @@ export default function RegisterModal({ isModalOpen, setIsModalOpen }) {
     };
 
     const onFinishFailed0 = (errorInfo) => {
-        console.log('Failed:', errorInfo);
+        
     };
 
     const onFinish1 = (values) => {
-        console.log('Success:', values);
+        
         setFullName(values.fullname)
         setCurrentStep(2)
         openNotification()
     };
 
     const onFinishFailed1 = (errorInfo) => {
-        console.log('Failed:', errorInfo);
+        
     };
 
     const toSecondLandingPage = () => {
@@ -72,7 +72,7 @@ export default function RegisterModal({ isModalOpen, setIsModalOpen }) {
     };
 
     const onFinishFailed2 = (errorInfo) => {
-        console.log('Failed:', errorInfo);
+     
     };
 
 
