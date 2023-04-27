@@ -1,0 +1,12 @@
+.vertical_line_box {
+    display: "flex";
+    min-height: 100% !important;
+}
+
+.vertical_line_box__item {
+    width: 50%;
+}
+
+.line {
+    border-left: 2px solid var(--line-color);
+}

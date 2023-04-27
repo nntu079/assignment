@@ -1,6 +1,9 @@
 import { Col, Row } from 'antd';
 import { CgProfile, } from "react-icons/cg"
 import { IoMdSearch } from "react-icons/io"
+
+import "./header.css"
+
 export default function Header() {
     return (
         <Row className='header'>

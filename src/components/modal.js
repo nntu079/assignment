@@ -1,10 +1,32 @@
 import React, { useState } from 'react';
-import { Button, Modal, Steps } from 'antd';
+import { Button, Modal, Steps, Avatar, InputNumber } from 'antd';
 import { Col, Row } from 'antd';
-import { Form, Input } from 'antd';
+import { Form, Input, DatePicker, notification } from 'antd';
+import { useNavigate } from "react-router-dom";
+import { Rate } from 'antd';
+
+
+
+import axios from 'axios';
+import Line from './VerticalLine';
 
 export default function RegisterModal({ isModalOpen, setIsModalOpen }) {
 
+    const [api, contextHolder] = notification.useNotification();
+
+    const openNotification = () => {
+        api.open({
+            description:
+                ' You have successfully verified your Account',
+            style: {
+                width: 600,
+                color: "green"
+            },
+        });
+    };
+
+
+    const navigate = useNavigate();
 
     const handleCancel = () => {
         setIsModalOpen(false);
@@ -12,8 +34,8 @@ export default function RegisterModal({ isModalOpen, setIsModalOpen }) {
     };
 
     const [email, setEmail] = useState("")
-
     const [currentStep, setCurrentStep] = useState(0)
+    const [fullName, setFullName] = useState("")
 
 
     const onFinish0 = (values) => {
@@ -27,25 +49,38 @@ export default function RegisterModal({ isModalOpen, setIsModalOpen }) {
 
     const onFinish1 = (values) => {
         console.log('Success:', values);
+        setFullName(values.fullname)
         setCurrentStep(2)
+        openNotification()
     };
 
     const onFinishFailed1 = (errorInfo) => {
         console.log('Failed:', errorInfo);
     };
 
+    const toSecondLandingPage = () => {
+        navigate("/second", { email, fullName });
+    };
+
     const onFinish2 = (values) => {
-        console.log('Success:', values);
-        setCurrentStep(2)
+        //call dummy endpoint using post request
+        const { data, statusText } = axios.post("https://jsonplaceholder.typicode.com/posts", values)
+
+        //if (statusText == "OK") {
+        toSecondLandingPage()
+        //}
     };
 
     const onFinishFailed2 = (errorInfo) => {
         console.log('Failed:', errorInfo);
     };
 
+
     return (
         <>
-            <Modal title={<div>
+            {contextHolder}
+
+            <Modal title={<div style={{ textAlign: "center" }}>
                 <div>Get Access to your content</div>
                 <div>3 Easy Steps</div>
             </div>}
@@ -58,7 +93,8 @@ export default function RegisterModal({ isModalOpen, setIsModalOpen }) {
                 height="60%"
             >
                 <Row >
-                    <Col xs={24} xl={11}>
+                    <Col xs={24} xl={11} >
+
                         <Steps
                             direction="vertical"
                             current={currentStep}
@@ -74,28 +110,27 @@ export default function RegisterModal({ isModalOpen, setIsModalOpen }) {
                                 },
                             ]}
                         />
+
+
                     </Col>
 
-                    <Col xs={0} xl={1}>
-                        <div style={{ display: "flex", minHeight: "100%" }}>
-                            <div style={{ width: "50%" }} ></div>
-                            <div style={{ width: "50%", }} className="line"> </div>
-                        </div>
+                    <Col xs={0} xl={2}>
+                        <Line />
                     </Col>
 
-                    <Col xs={24} xl={12}>
+                    <Col xs={24} xl={11}>
                         {currentStep == 0 && <Form
                             name="basic"
                             labelCol={{
-                                span: 8,
+                                span: 24,
                             }}
                             wrapperCol={{
-                                span: 16,
+                                span: 24,
                             }}
                             onFinish={onFinish0}
                             onFinishFailed={onFinishFailed0}
                         >
-                            <div style={{ textAlign: "center" }}>
+                            <div style={{ textAlign: "center", paddingBottom: 10 }} className='body41'>
                                 Create Your Free Account
                             </div>
                             <Form.Item
@@ -114,41 +149,38 @@ export default function RegisterModal({ isModalOpen, setIsModalOpen }) {
 
                             <Form.Item
                                 wrapperCol={{
-                                    offset: 8,
-                                    span: 16,
+                                    offset: 0,
+                                    span: 24,
                                 }}
                             >
-                                <Button type="primary" htmlType="submit">
+                                <Button type="primary" htmlType="submit" style={{ width: "100%" }}>
                                     Submit
                                 </Button>
                             </Form.Item>
                         </Form>}
 
                         {currentStep == 1 && <Form
-                            name="basic"
                             labelCol={{
-                                span: 8,
+                                span: 24,
                             }}
                             wrapperCol={{
-                                span: 16,
+                                span: 24,
                             }}
                             onFinish={onFinish1}
                             onFinishFailed={onFinishFailed1}
 
                             initialValues={{ email: email }}
                         >
-                            <div style={{ textAlign: "center" }}>
-                                100% FREE MEMBERSHIP
-                                <br />
-                                Verify Your Account and Get Access For Free
-                            </div>
+                            <div style={{ marginBottom: "5px" }} >
+                                <span style={{ fontSize: 'x-large' }}> 100% FREE MEMBERSHIP</span>
 
-                            <div style={{ textAlign: "center" }}>
-                                <div>Download the lastest apps</div>
-                                <div>Watch popular movies</div>
-                                <div>Learn from Ebooks and Courses</div>
-                                <div>And more!</div>
-                            </div >
+                                <div style={{ fontSize: 'small' }}>
+                                    Verify Your Account and <span style={{ fontWeight: "bold" }}>Get Access For Free</span>
+                                </div>
+                                <div>
+                                    <Rate allowHalf value={4.5} /> Based on 194.138 reviews
+                                </div>
+                            </div>
 
                             <Form.Item
                                 label="Email"
@@ -160,8 +192,9 @@ export default function RegisterModal({ isModalOpen, setIsModalOpen }) {
                                         message: "The input is not valid E-mail!",
                                     },
                                 ]}
+
                             >
-                                <Input />
+                                <Input readOnly={true} />
                             </Form.Item>
 
                             <Form.Item
@@ -178,7 +211,30 @@ export default function RegisterModal({ isModalOpen, setIsModalOpen }) {
                             </Form.Item>
 
                             <Form.Item
-                                label="Credit Card Number"
+                                label={
+                                    <div > Credit Card Number
+                                        <div style={{ float: "right" }}>
+                                            <Avatar
+                                                shape="square"
+                                                src={"visa.png"}
+                                                alt="avatar"
+                                            />
+
+                                            <Avatar
+                                                shape="square"
+                                                src={"visa.png"}
+                                                alt="avatar"
+                                            />
+
+                                            <Avatar
+                                                shape="square"
+                                                src={"visa.png"}
+                                                alt="avatar"
+                                            />
+                                        </div>
+
+                                    </div>}
+
                                 name="cardNumber"
                                 rules={[
                                     {
@@ -192,14 +248,74 @@ export default function RegisterModal({ isModalOpen, setIsModalOpen }) {
                             >
                                 <Input />
                             </Form.Item>
+                            <Row>
+                                <Col xs={24} xl={8}>
+                                    <Form.Item
+                                        label="Exp. month"
+                                        wrapperCol={{
+                                            offset: 0,
+                                            span: 20,
+                                        }}
+                                        name="month"
+
+                                        rules={[
+                                            {
+                                                required: true,
+                                                message: "The Exp. month required.",
+                                            }
+                                        ]}
+                                    >
+                                        <DatePicker picker="month" />
+                                    </Form.Item>
+                                </Col>
+
+                                <Col xs={24} xl={8}>
+                                    <Form.Item
+                                        label="Exp. year"
+                                        wrapperCol={{
+                                            offset: 0,
+                                            span: 20,
+                                        }}
+                                        name="year"
+                                        rules={[
+                                            {
+                                                required: true,
+                                                message: "The Exp. year required.",
+                                            }
+                                        ]}
+                                    >
+                                        <DatePicker picker="year" />
+                                    </Form.Item>
+                                </Col>
+
+                                <Col xs={24} xl={8}>
+                                    <Form.Item
+                                        label="CVV"
+                                        wrapperCol={{
+                                            offset: 0,
+                                            span: 20,
+                                        }}
+                                        name="cvv"
+
+                                        rules={[
+                                            {
+                                                required: true,
+                                                message: "The CVV required.",
+                                            }
+                                        ]}
+                                    >
+                                        <InputNumber />
+                                    </Form.Item>
+                                </Col>
+                            </Row>
 
                             <Form.Item
                                 wrapperCol={{
-                                    offset: 8,
-                                    span: 16,
+                                    offset: 0,
+                                    span: 24,
                                 }}
                             >
-                                <Button type="primary" htmlType="submit">
+                                <Button type="primary" htmlType="submit" style={{ width: "100%" }}>
                                     Submit
                                 </Button>
                             </Form.Item>
@@ -219,37 +335,18 @@ export default function RegisterModal({ isModalOpen, setIsModalOpen }) {
 
                             initialValues={{ email: email }}
                         >
-                            <div style={{ textAlign: "center" }}>
-                                100% FREE MEMBERSHIP
+                            <div style={{ fontSize: "x-large", color: "rgb(70, 110, 90)" }}>
+                                You have successfully verified your Account
                             </div>
-
-                            <div style={{ textAlign: "center" }}>
-                                A token has been sent to the email address {email}, please enter this token.
-                            </div >
-
-
-                            <Form.Item
-                                label="Email"
-                                name="email"
-                                rules={[
-                                    {
-                                        required: true,
-                                        type: "email",
-                                        message: "The input is not valid E-mail!",
-                                    },
-                                ]}
-                            >
-                                <Input />
-                            </Form.Item>
 
                             <Form.Item
                                 wrapperCol={{
-                                    offset: 8,
-                                    span: 16,
+                                    offset: 0,
+                                    span: 24,
                                 }}
                             >
-                                <Button type="primary" htmlType="submit">
-                                    Submit
+                                <Button type="primary" htmlType="submit" style={{ width: "100%" }}>
+                                    Get access now
                                 </Button>
                             </Form.Item>
                         </Form>}

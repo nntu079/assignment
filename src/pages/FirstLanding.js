@@ -1,14 +1,30 @@
 import Header from "../components/header";
-import { Col, Row, Divider } from 'antd';
-import { Steps } from 'antd';
-import { Button, Space } from 'antd';
+import { Col, Steps, Row, Button, notification } from 'antd';
 import { BsCircleFill, BsShieldCheck, BsCheckLg } from "react-icons/bs"
 import { AiOutlineGlobal, AiOutlineDownload } from "react-icons/ai"
 import RegisterModal from "../components/modal";
 import { useState } from "react"
 
+import "./FirstLanding.css"
+
+import Line from "../components/VerticalLine";
+
+
 
 export default function FirstLanding() {
+
+    const [api, contextHolder] = notification.useNotification();
+
+    const openNotification = () => {
+        api.open({
+            description:
+                'Not available',
+            style: {
+                width: 600,
+                color: "green"
+            },
+        });
+    };
 
     const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -18,6 +34,9 @@ export default function FirstLanding() {
 
     return (<>
         <Header />
+
+        {contextHolder}
+
         <div className="body1 text_style_1">
             Your storage in the cloud 5TB of Cloud Storage included for PC & Smartphone. Save space on your device by storing your documents in the Cloud Start now and enjoy your Free Trial
         </div>
@@ -36,21 +55,17 @@ export default function FirstLanding() {
                     </div>
                 </div></Col>
             <Col xs={0} xl={1}>
-                <div style={{ display: "flex", minHeight: "100%" }}>
-                    <div style={{ width: "50%" }} ></div>
-                    <div style={{ width: "50%", }} className="line"> </div>
-                </div>
+                <Line />
             </Col>
             <Col xs={24} xl={4}>
                 <div className="body22">
-                    <Button type="default">
+                    <Button type="default" onClick={openNotification}>
                         <AiOutlineDownload fontSize={30} fill="rgb(86, 224, 86)" style={{ position: "absolute", left: 8, bottom: 10 }} /> Continue
                     </Button>
 
                     <div style={{ marginTop: 5 }}>
                         <BsCircleFill className="icon_online" fontSize={10} style={{ marginRight: 5 }} />
                         <span className="high_speed_text"> High Speed & Unlimited</span>
-
                     </div>
                 </div>
             </Col>
@@ -74,10 +89,7 @@ export default function FirstLanding() {
             </Col>
 
             <Col xs={0} xl={1}>
-                <div style={{ display: "flex", minHeight: "100%" }}>
-                    <div style={{ width: "50%" }} ></div>
-                    <div style={{ width: "50%", }} className="line"> </div>
-                </div>
+                <Line />
             </Col>
             <Col xs={24} xl={6} >
                 <div>
@@ -88,10 +100,7 @@ export default function FirstLanding() {
             </Col>
 
             <Col xs={0} xl={1}>
-                <div style={{ display: "flex", minHeight: "100%" }}>
-                    <div style={{ width: "50%" }} ></div>
-                    <div style={{ width: "50%", }} className="line"> </div>
-                </div>
+                <Line />
             </Col>
 
             <Col xs={24} xl={7}>

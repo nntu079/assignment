@@ -1,12 +1,28 @@
-import FirstLanding from "./pages/FirstLanding";
+
+import React from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "./App.css"
+
+import FirstLanding from "./pages/FirstLanding";
+import SecondLangding from "./pages/SecondLanding";
+import ErrorPage from "./pages/error";
+
 
 function App() {
   return (
-    <div >
-      <FirstLanding />
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<FirstLanding />}>
+        </Route>
+        <Route path="/first" element={<FirstLanding />}>
+        </Route>
 
-    </div>
+        <Route path="/second" element={<SecondLangding />}>
+        </Route>
+
+        <Route path="*" element={<ErrorPage />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 
